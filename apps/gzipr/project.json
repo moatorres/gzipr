@@ -1,0 +1,89 @@
+{
+  "name": "gzipr",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/gzipr/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "development",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/gzipr",
+        "main": "apps/gzipr/src/main.ts",
+        "tsConfig": "apps/gzipr/tsconfig.app.json",
+        "generatePackageJson": true,
+        "assets": [],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/gzipr/webpack.config.js"
+      },
+      "configurations": {
+        "development": {
+          "optimization": false,
+          "extractLicenses": true
+        },
+        "production": {
+          "optimization": true,
+          "extractLicenses": false,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/gzipr/src/config/env.ts",
+              "with": "apps/gzipr/src/config/env.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "gzipr:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "gzipr:build:development",
+          "inspect": true
+        },
+        "production": {
+          "buildTarget": "gzipr:build:production",
+          "inspect": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/gzipr/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/gzipr/jest.config.ts",
+        "passWithNoTests": true,
+        "runInBand": true,
+        "detectOpenHandles": true,
+        "forceExit": true,
+        "silent": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "silent": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "docker-build": {
+      "dependsOn": ["build"],
+      "command": "docker build -f apps/gzipr/Dockerfile . -t gzipr"
+    }
+  },
+  "tags": []
+}
