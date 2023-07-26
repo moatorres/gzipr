@@ -125,7 +125,7 @@ export abstract class BaseController {
   }
 
   public fail(res: Response, error?: Error | string) {
-    // console.error('BaseController (L105) Fail', error)
+    // this.logger.debug('BaseController (L128) Fail', error)
     return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
       status: HttpStatus.INTERNAL_SERVER_ERROR,
       message: error?.toString() ?? 'Internal server error',

@@ -42,7 +42,7 @@ export class DownloadController extends BaseController {
         try {
           return readStream.pipe(res)
         } catch (error) {
-          console.error('readstream', error)
+          this.logger.debug('ReadStream Pipe', error)
         }
       }
     } catch (error) {

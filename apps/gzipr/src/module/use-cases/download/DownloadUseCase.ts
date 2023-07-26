@@ -44,7 +44,6 @@ export class DownloadUseCase extends UseCase<DownloadFileDTO, Response> {
       const absolutePath = path.resolve(process.cwd(), this.directory, filename)
 
       const found = await this.storage.exists(absolutePath)
-      console.log(found, absolutePath)
 
       if (!found) {
         return left(

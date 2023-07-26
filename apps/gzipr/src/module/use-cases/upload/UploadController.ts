@@ -29,8 +29,6 @@ export class UploadController extends BaseController {
       if (result.isLeft()) {
         const error = result.left
 
-        console.log('chegou', error.constructor.name)
-
         switch (error.constructor.name) {
           case 'InvalidHeaders':
           case 'InvalidFileExtension':
