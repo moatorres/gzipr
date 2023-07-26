@@ -1,0 +1,6 @@
+{
+  "ext": "ts",
+  "exec": "nx serve gzipr",
+  "watch": ["apps/gzipr/src", "libs/core/src"],
+  "ignore": ["**/*.test.ts", "**/*.spec.ts", "node_modules"]
+}
