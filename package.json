@@ -4,7 +4,12 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon",
-    "test": "yarn nx run gzipr:test",
+    "test": "yarn build && yarn test:core && yarn test:gzipr && yarn test:e2e",
+    "test:e2e": "nx run gzipr-e2e:e2e",
+    "serve:dev": "nx run gzipr:serve:development",
+    "serve:prod": "nx run gzipr:serve:production",
+    "test:core": "nx run core:test",
+    "test:gzipr": "nx run gzipr:test",
     "build": "yarn build:production",
     "build:development": "yarn nx run gzipr:build:development",
     "build:production": "yarn nx run gzipr:build:production"
