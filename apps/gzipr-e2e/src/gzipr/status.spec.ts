@@ -1,5 +1,9 @@
 import axios, { AxiosError } from 'axios'
 
+/**
+ * Test the /status endpoint
+ * Requires that the server is running.
+ */
 describe('GET /', () => {
   it('should return 404', async () => {
     let error: AxiosError

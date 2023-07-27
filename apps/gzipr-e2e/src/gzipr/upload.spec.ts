@@ -2,6 +2,10 @@ import fs from 'fs'
 import axios, { AxiosError } from 'axios'
 import FormData from 'form-data'
 
+/**
+ * Test the /upload endpoint
+ * Requires that the server is running.
+ */
 describe('GET /upload', () => {
   it('should return 404', async () => {
     let error: AxiosError
