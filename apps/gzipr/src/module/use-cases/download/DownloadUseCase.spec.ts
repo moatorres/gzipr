@@ -1,4 +1,4 @@
-import fs from 'fs'
+import fs, { ReadStream } from 'fs'
 
 import { ConsoleLogger } from '@gzipr/core'
 import { LocalFileStorage } from '../../infra/LocalFileStorage'
@@ -28,15 +28,18 @@ describe('DownloadUseCase', () => {
     expect(result.isLeft()).toBeTruthy()
   })
 
-  xit('should return right when storage returns a stream', async () => {
+  it('should return right when storage returns a stream', async () => {
     const useCase = new DownloadUseCase(logger, localStorage)
-    const result = await useCase.execute({ filename: 'filename.txt' })
+    const result = await useCase.execute({ filename: 'hello.gz' })
+    console.log(result)
     expect(result.isRight()).toBeTruthy()
   })
 
-  xit('should return a readable stream when storage returns a stream', async () => {
+  it('should return a readable stream when storage returns a stream', async () => {
     const useCase = new DownloadUseCase(logger, localStorage)
-    const result = await useCase.execute({ filename: 'filename.txt' })
-    expect(result.isRight()).toBeTruthy()
+    const result = await useCase.execute({ filename: 'hello.gz' })
+    if (result.isRight()) {
+      expect(result.right.value instanceof ReadStream).toBeTruthy()
+    }
   })
 })
