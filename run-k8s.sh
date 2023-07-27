@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# fresh build
+yarn nx run gzipr:build:production
+
 # docker image name
 export IMAGE_NAME=ghcr.io/moatorres/gzip-uploader
 # docker stable tag
