@@ -11,8 +11,11 @@ describe('DotenvConfigLoader', () => {
       NODE_ENV: 'development',
       PORT: '3000',
       STORAGE_TYPE: 'local',
+      TLS_CERT: '',
+      TLS_KEY: '',
       TRUST_PROXY: '1',
       UPLOADS_DIR: 'uploads',
+      USE_HTTPS: 'false',
     })
   })
 })

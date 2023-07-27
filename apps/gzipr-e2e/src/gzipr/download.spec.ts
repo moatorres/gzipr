@@ -9,8 +9,8 @@ function sha1sum(filePath: string) {
   return crypto.createHash('sha1').update(data).digest('hex')
 }
 /**
- * Test the /download/:filename endpoint
- * Requires that the file `hello.gz` exists in the `<root>/uploads` folder.
+ * Test the /download/:filename endpoint.
+ * Requires that the server is running.
  */
 describe('GET /download/:filename', () => {
   it('should return the uploaded gzip file', async () => {
