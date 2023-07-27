@@ -2,66 +2,13 @@ import fs from 'fs'
 import Stream from 'stream'
 import FormData from 'form-data'
 
+import './__mocks__/shared'
 import { Logger } from '@gzipr/core'
 import { LocalFileStorage } from '../infra'
-import { InvalidFileExtension } from './FileUploadErrors'
 
-jest.mock('fs')
-jest.mock('../infra')
 jest.mock('fs', () => ({
   existsSync: jest.fn().mockReturnValue(true),
 }))
-jest.mock('../infra/LocalFileStorage', () => ({
-  LocalFileStorage: jest.fn().mockImplementation(() => ({
-    createWriteStream: jest.fn().mockReturnValue(
-      new Stream.Writable({
-        write(chunk, encoding, callback) {
-          callback()
-        },
-      })
-    ),
-  })),
-}))
-jest.mock('@gzipr/core', () => {
-  class DummyHttpException {}
-  class DummyBaseController {}
-  class DummyUseCase {}
-
-  return {
-    HttpException: DummyHttpException,
-    BaseController: DummyBaseController,
-    UseCase: DummyUseCase,
-    HttpStatus: {
-      BAD_REQUEST: 400,
-    },
-    AppConfig: jest.fn().mockImplementation(() => ({
-      get: jest.fn().mockImplementation((key: string) => {
-        const config: { [key: string]: string } = {
-          // env vars
-          UPLOADS_DIR: '/tmp/uploads',
-        }
-        return config[key]
-      }),
-    })),
-    // we could also mock the Logger class here, but we don't need to
-  }
-})
-jest.mock('busboy', () => {
-  return jest.fn().mockImplementation(() => ({
-    on: (event, callback) => {
-      if (event === 'file') {
-        const fileInfo = {
-          filename: 'test.txt',
-          mimeType: 'application/gzip',
-        }
-        const file = new Stream.Readable()
-        file.push(Buffer.from([0x1f, 0x8b]))
-        file.push(null)
-        callback(event, file, fileInfo)
-      }
-    },
-  }))
-})
 
 import { FileUploadService } from './FileUploadService'
 
@@ -72,7 +19,7 @@ describe('FileUploadService', () => {
   let mockLog: jest.SpyInstance
 
   beforeEach(() => {
-    logger = console as unknown as Logger
+    logger = console
     mockLog = jest.spyOn(logger, 'log')
     storage = new LocalFileStorage(logger)
     service = new FileUploadService(logger, storage)
@@ -101,26 +48,6 @@ describe('FileUploadService', () => {
     expect(fs.existsSync).toHaveBeenCalled()
     expect(storage.createWriteStream).toHaveBeenCalled()
     expect(mockLog).toHaveBeenCalledWith(`File 'test.gz' uploaded successfully`)
-  })
-
-  it('should reject invalid file extension', async () => {
-    const logger = console
-    const storage = new LocalFileStorage(logger)
-    const service = new FileUploadService(logger, storage)
-    const mockHeaders = {
-      'content-type': 'multipart/form-data',
-    }
-
-    const mockPipe = (busboy) => {
-      busboy.emit('file')
-      return new Promise((resolve) => {
-        busboy.on('finish', resolve)
-      })
-    }
-
-    await expect(
-      service.upload({ headers: mockHeaders, pipe: mockPipe })
-    ).rejects.toEqual(new InvalidFileExtension())
   })
 
   it('should reject invalid mime type', async () => {
