@@ -8,23 +8,20 @@ function sha1sum(filePath: string) {
   const data = fs.readFileSync(filePath)
   return crypto.createHash('sha1').update(data).digest('hex')
 }
-
+/**
+ * Test the /download/:filename endpoint
+ * Requires that the file `hello.gz` exists in the `<root>/uploads` folder.
+ */
 describe('GET /download/:filename', () => {
   it('should return the uploaded gzip file', async () => {
     const filename = 'hello.gz'
 
-    const res = await axios
-      .get(`/download/${filename}`, {
-        responseType: 'arraybuffer', // this is important
-        headers: {
-          'Content-Type': 'application/gzip',
-        },
-      })
-      .catch((error) => {
-        fail(
-          `Request failed with status ${error.response.status} and message ${error.response.data}`
-        )
-      })
+    const res = await axios.get(`/download/${filename}`, {
+      responseType: 'arraybuffer', // this is important
+      headers: {
+        'Content-Type': 'application/gzip',
+      },
+    })
 
     expect(res.status).toBe(200)
     expect(res.headers['content-type']).toBe('application/gzip')
