@@ -21,6 +21,17 @@ describe('LocalFileStorage', () => {
     })
   })
 
+  describe('exists', () => {
+    it('should check if a file exists', async () => {
+      const filename = 'test.txt'
+      const file = Buffer.from('test')
+
+      await storage.save(filename, file)
+      const exists = await storage.exists(filename)
+      expect(exists).toBeTruthy()
+    })
+  })
+
   describe('read', () => {
     it('should read a file', async () => {
       const filename = 'test.txt'
@@ -44,17 +55,6 @@ describe('LocalFileStorage', () => {
       await storage.delete(filename)
       const exists2 = await storage.exists(filename)
       expect(exists2).toBeFalsy()
-    })
-  })
-
-  describe('exists', () => {
-    it('should check if a file exists', async () => {
-      const filename = 'test.txt'
-      const file = Buffer.from('test')
-
-      await storage.save(filename, file)
-      const exists = await storage.exists(filename)
-      expect(exists).toBeTruthy()
     })
   })
 })
