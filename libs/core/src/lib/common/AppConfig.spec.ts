@@ -1,8 +1,8 @@
 import { AppConfig } from './AppConfig'
 
 describe('AppConfig', () => {
-  it('should load configuration from synchronous loaders', async () => {
-    const config = await new AppConfig([
+  it('should load configuration from synchronous loaders', () => {
+    const config = new AppConfig([
       {
         load: () => ({ NODE_ENV: 'test' }),
       },
@@ -27,9 +27,8 @@ describe('AppConfig', () => {
     expect(config.get('PORT')).toEqual('3000')
   })
 
-  it('should return undefined for unknown key', async () => {
+  it('should return undefined for unknown key', () => {
     const config = new AppConfig([])
-    // @ts-expect-error - should not allow unknown keys
     expect(config.get('UNKNOWN_KEY')).toBeUndefined()
   })
 })

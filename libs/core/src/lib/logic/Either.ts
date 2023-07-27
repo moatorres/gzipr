@@ -1,5 +1,3 @@
-import { AppError } from '../exceptions/AppError'
-
 export type Either<E extends Error, T> = Left<E> | Right<T>
 
 export class Left<E extends Error> {
@@ -34,7 +32,7 @@ export class Right<T> {
   }
 }
 
-export function left<E extends AppError>(value: E): Either<E, never> {
+export function left<E extends Error>(value: E): Either<E, never> {
   return new Left(value)
 }
 
@@ -42,7 +40,7 @@ export function right<T>(value: T): Either<never, T> {
   return new Right(value)
 }
 
-export function map<E extends AppError, T, U>(
+export function map<E extends Error, T, U>(
   either: Either<E, T>,
   f: (value: T) => U
 ): Either<E, U> {
@@ -53,7 +51,7 @@ export function map<E extends AppError, T, U>(
   }
 }
 
-export function mapError<E extends AppError, T, F extends AppError>(
+export function mapError<E extends Error, T, F extends Error>(
   either: Either<E, T>,
   f: (error: E) => F
 ): Either<F, T> {
@@ -64,7 +62,7 @@ export function mapError<E extends AppError, T, F extends AppError>(
   }
 }
 
-export function flatMap<E extends AppError, T, U>(
+export function flatMap<E extends Error, T, U>(
   either: Either<E, T>,
   f: (value: T) => Either<E, U>
 ): Either<E, U> {
@@ -75,7 +73,7 @@ export function flatMap<E extends AppError, T, U>(
   }
 }
 
-export function getOrElse<E extends AppError, T>(
+export function getOrElse<E extends Error, T>(
   either: Either<E, T>,
   defaultValue: T
 ): T {
@@ -86,14 +84,14 @@ export function getOrElse<E extends AppError, T>(
   }
 }
 
-export function chain<E extends AppError, T, U>(
+export function chain<E extends Error, T, U>(
   either: Either<E, T>,
   f: (value: T) => Either<E, U>
 ): Either<E, U> {
   return flatMap(either, f)
 }
 
-export function chainError<E extends AppError, T, F extends AppError>(
+export function chainError<E extends Error, T, F extends Error>(
   either: Either<E, T>,
   f: (error: E) => Either<F, T>
 ): Either<F, T> {
@@ -106,7 +104,7 @@ export function chainError<E extends AppError, T, F extends AppError>(
 
 export function of<T>(value: T | null | undefined): Either<Error, T> {
   if (value === null || value === undefined) {
-    return left(new AppError('Value is null or undefined'))
+    return left(new Error('Value is null or undefined'))
   } else {
     return right(value)
   }
@@ -114,7 +112,7 @@ export function of<T>(value: T | null | undefined): Either<Error, T> {
 
 export function from<T>(
   value: T | null | undefined,
-  error: Error = new AppError('Value is null or undefined')
+  error: Error = new Error('Value is null or undefined')
 ): Either<Error, T> {
   if (value === null || value === undefined) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -124,7 +122,7 @@ export function from<T>(
   }
 }
 
-export function fold<E extends AppError, T, R>(
+export function fold<E extends Error, T, R>(
   either: Either<E, T>,
   onError: (error: E) => R,
   onSuccess: (value: T) => R
@@ -136,7 +134,7 @@ export function fold<E extends AppError, T, R>(
   }
 }
 
-export function onError<E extends AppError, T, R>(
+export function onError<E extends Error, T, R>(
   either: Either<E, T>,
   fn: (error: E) => R
 ): R | undefined {
@@ -145,7 +143,7 @@ export function onError<E extends AppError, T, R>(
   }
 }
 
-export function onSuccess<E extends AppError, T, R>(
+export function onSuccess<E extends Error, T, R>(
   either: Either<E, T>,
   fn: (value: T) => R
 ): R | undefined {
@@ -160,7 +158,7 @@ export type Matcher<E, T, R> = {
   onSuccess: (value: T) => R
 }
 
-export function match<E extends AppError, T, R>(
+export function match<E extends Error, T, R>(
   either: Either<E, T>,
   { onError, onSuccess }: Matcher<E, T, R>
 ): R {

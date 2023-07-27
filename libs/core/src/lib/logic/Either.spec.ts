@@ -1,4 +1,4 @@
-import { AppError, UnprocessableContent } from '../exceptions'
+import { UnprocessableContent } from '../exceptions'
 import * as E from './Either'
 
 describe('Either', () => {
@@ -143,7 +143,7 @@ describe('Either', () => {
     expect(either.isLeft()).toBeTruthy()
 
     if (either.isLeft()) {
-      expect(either.left).toBeInstanceOf(AppError)
+      expect(either.left).toBeInstanceOf(Error)
     }
   })
 
