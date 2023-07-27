@@ -3,11 +3,6 @@ import fs from 'fs'
 import path from 'path'
 import crypto from 'crypto'
 
-// calculate the sha1sum of a file
-function sha1sum(filePath: string) {
-  const data = fs.readFileSync(filePath)
-  return crypto.createHash('sha1').update(data).digest('hex')
-}
 /**
  * Test the /download/:filename endpoint.
  * Requires that the server is running.
@@ -35,3 +30,12 @@ describe('GET /download/:filename', () => {
     expect(sha1sum(originalFile)).toBe(sha1sum(downloadedFile))
   })
 })
+
+/**
+ * Calculate the sha1sum of a file.
+ * @param filePath The path to the file.
+ */
+function sha1sum(filePath: string) {
+  const data = fs.readFileSync(filePath)
+  return crypto.createHash('sha1').update(data).digest('hex')
+}
