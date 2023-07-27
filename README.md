@@ -1,6 +1,6 @@
 # gzipr
 
-`gzipr` is an Express.js server, built for the Senior Software Engineer challenge, focusing on file uploads.
+`gzipr` is an Express.js server, built for a Senior Software Engineer challenge, focusing on file uploads.
 
 ## Stack
 
@@ -35,7 +35,7 @@ cd gzipr
 yarn install
 
 # start the server
-yarn dev # ./run-dev.sh
+yarn dev
 ```
 
 ## Usage
