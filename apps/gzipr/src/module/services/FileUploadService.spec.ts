@@ -1,5 +1,4 @@
 import fs from 'fs'
-import crypto from 'crypto'
 import Stream from 'stream'
 import FormData from 'form-data'
 
@@ -32,6 +31,9 @@ jest.mock('@gzipr/core', () => {
     HttpException: DummyHttpException,
     BaseController: DummyBaseController,
     UseCase: DummyUseCase,
+    HttpStatus: {
+      BAD_REQUEST: 400,
+    },
     AppConfig: jest.fn().mockImplementation(() => ({
       get: jest.fn().mockImplementation((key: string) => {
         const config: { [key: string]: string } = {
@@ -43,6 +45,22 @@ jest.mock('@gzipr/core', () => {
     })),
     // we could also mock the Logger class here, but we don't need to
   }
+})
+jest.mock('busboy', () => {
+  return jest.fn().mockImplementation(() => ({
+    on: (event, callback) => {
+      if (event === 'file') {
+        const fileInfo = {
+          filename: 'test.txt',
+          mimeType: 'application/gzip',
+        }
+        const file = new Stream.Readable()
+        file.push(Buffer.from([0x1f, 0x8b]))
+        file.push(null)
+        callback(event, file, fileInfo)
+      }
+    },
+  }))
 })
 
 import { FileUploadService } from './FileUploadService'
@@ -86,23 +104,23 @@ describe('FileUploadService', () => {
   })
 
   it('should reject invalid file extension', async () => {
-    const mockFile = new Stream.Readable()
-    mockFile.push(Buffer.from([0x1f, 0x8b]))
-    mockFile.push(null)
-
-    // generate a random boundary
-    const boundary = `----WebKitFormBoundary${crypto
-      .randomBytes(16)
-      .toString('hex')}`
-
+    const logger = console
+    const storage = new LocalFileStorage(logger)
+    const service = new FileUploadService(logger, storage)
     const mockHeaders = {
-      'content-type': `multipart/form-data; boundary=${boundary}`,
+      'content-type': 'multipart/form-data',
     }
-    const mockPipe = () => mockFile
+
+    const mockPipe = (busboy) => {
+      busboy.emit('file')
+      return new Promise((resolve) => {
+        busboy.on('finish', resolve)
+      })
+    }
 
     await expect(
       service.upload({ headers: mockHeaders, pipe: mockPipe })
-    ).rejects.toThrow(InvalidFileExtension)
+    ).rejects.toEqual(new InvalidFileExtension())
   })
 
   it('should reject invalid mime type', async () => {
