@@ -24,7 +24,7 @@ describe('GET /download/:filename', () => {
     })
 
     expect(res.status).toBe(200)
-    expect(res.headers['content-type']).toBe('application/gzip')
+    expect(res.headers['content-type']).toBe('application/octet-stream')
 
     // save the downloaded file to disk
     const downloadedFile = path.resolve('apps/gzipr-e2e/src/data/downloaded.gz')

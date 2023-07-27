@@ -33,8 +33,7 @@ export class DownloadController extends BaseController {
             return this.fail(res, error)
         }
       } else {
-        res.header('Content-Type', 'application/gzip')
-        res.header('Content-Encoding', 'gzip')
+        res.header('Content-Type', 'application/octet-stream')
         res.header('Content-Disposition', `attachment; filename="${filename}"`)
 
         const readStream = result.right.value as NodeJS.ReadableStream
