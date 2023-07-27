@@ -1,5 +1,3 @@
-import fs from 'fs'
-import path from 'path'
 import http from 'http'
 import https from 'https'
 import express, { Application, IRouter } from 'express'
@@ -138,6 +136,7 @@ export class ExpressServer {
   public start(): void {
     const env = this.config.get('NODE_ENV')
     const port = this.config.get('PORT')
+    const hostname = this.config.get('HOST')
     const protocol = this.options.useHTTPS ? 'https' : 'http'
     const server = this.options.useHTTPS
       ? this.createHttpsServer()
@@ -156,7 +155,7 @@ export class ExpressServer {
       }
 
       this.logger.log(
-        `Running in ${env} mode on ${protocol}://localhost:${port}`
+        `Running in ${env} mode on ${protocol}://${hostname}:${port}`
       )
 
       Object.values(ShutdownSignal).forEach((signal) => {
@@ -201,11 +200,9 @@ export class ExpressServer {
   }
 
   private createHttpsServer(options?: https.ServerOptions): https.Server {
-    const defaults = {
-      key: fs.readFileSync(path.resolve(__dirname, 'cert', 'private.key')),
-      cert: fs.readFileSync(path.resolve(__dirname, 'cert', 'public.crt')),
-    }
-    return https.createServer({ ...defaults, ...options }, this.app)
+    const key = this.config.get('TLS_KEY')
+    const cert = this.config.get('TLS_CERT')
+    return https.createServer({ key, cert, ...options }, this.app)
   }
 
   private handleUncaughtException() {

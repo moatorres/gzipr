@@ -77,3 +77,13 @@ spec:
               value: '1'
             - name: NODEMON
               value: 'true'
+            - name: TLS_CERT
+              valueFrom:
+                secretKeyRef:
+                  name: gzip-uploader-tls
+                  key: tls.key
+            - name: TLS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: gzip-uploader-tls
+                  key: tls.crt
