@@ -3,7 +3,7 @@ import { YamlConfigLoader } from './YamlConfigLoader'
 describe('YamlConfigLoader', () => {
   it('should load config from yaml file', async () => {
     const loader = new YamlConfigLoader(
-      'apps/gzipr/src/config/loaders/__tests__/config.yaml'
+      'apps/gzipr/src/config/loaders/__mocks__/config.yaml'
     )
 
     const config = await loader.load()

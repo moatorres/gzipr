@@ -3,7 +3,7 @@ import { JsonConfigLoader } from './JsonConfigLoader'
 describe('JsonConfigLoader', () => {
   it('should load config from json file', () => {
     const loader = new JsonConfigLoader(
-      'apps/gzipr/src/config/loaders/__tests__/config.json'
+      'apps/gzipr/src/config/loaders/__mocks__/config.json'
     )
 
     const config = loader.load()
