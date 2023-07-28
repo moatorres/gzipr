@@ -52,3 +52,34 @@ The application provides three main endpoints:
 ## Conclusion
 
 `gzipr` showcases a balance between design principles and technical decisions, with a specific focus on efficient file transfering.
+
+## Tests
+
+#### `@gzipr/core`
+
+```bash
+Test Suites: 24 passed, 24 total
+Tests:       160 passed, 160 total
+Snapshots:   0 total
+Time:        4.269 s
+```
+
+#### `gzipr`
+
+```bash
+Test Suites: 10 passed, 10 total
+Tests:       26 passed, 26 total
+Snapshots:   0 total
+Time:        2.717 s, estimated 3 s
+```
+
+#### `gzipr-e2e`
+
+```bash
+Test Suites: 3 passed, 3 total
+Tests:       7 passed, 7 total
+Snapshots:   0 total
+Time:        0.46 s, estimated 1 s
+```
+
+<sub>⚡️ Powered by **OSS** — `< >` with ☕️ by [**Moa Torres**](https://github.com/moatorres)</sub>
