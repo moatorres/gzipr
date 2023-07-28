@@ -67,10 +67,10 @@ Time:        4.269 s
 #### `gzipr`
 
 ```bash
-Test Suites: 10 passed, 10 total
-Tests:       26 passed, 26 total
+Test Suites: 11 passed, 11 total
+Tests:       32 passed, 32 total
 Snapshots:   0 total
-Time:        2.717 s, estimated 3 s
+Time:        3.375 s, estimated 5 s
 ```
 
 #### `gzipr-e2e`
