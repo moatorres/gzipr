@@ -183,4 +183,51 @@ describe('BaseController', () => {
       message: 'An unexpected error occurred',
     })
   })
+
+  it('should send "412" status without message', async () => {
+    controller.preconditionFailed(res)
+    expect(res.status).toHaveBeenCalledWith(HttpStatus.PRECONDITION_FAILED)
+    expect(res.json).toHaveBeenCalledWith({
+      status: HttpStatus.PRECONDITION_FAILED,
+      message: 'Precondition failed',
+    })
+  })
+
+  it('should send "412" status with message', async () => {
+    const message = 'test'
+    controller.preconditionFailed(res, message)
+    expect(res.status).toHaveBeenCalledWith(HttpStatus.PRECONDITION_FAILED)
+    expect(res.json).toHaveBeenCalledWith({
+      status: HttpStatus.PRECONDITION_FAILED,
+      message,
+    })
+  })
+
+  it('should send "409" status without message', async () => {
+    controller.conflict(res)
+    expect(res.status).toHaveBeenCalledWith(HttpStatus.CONFLICT)
+    expect(res.json).toHaveBeenCalledWith({
+      status: HttpStatus.CONFLICT,
+      message: 'Conflict',
+    })
+  })
+
+  it('should send "409" status with message', async () => {
+    const message = 'test'
+    controller.conflict(res, message)
+    expect(res.status).toHaveBeenCalledWith(HttpStatus.CONFLICT)
+    expect(res.json).toHaveBeenCalledWith({
+      status: HttpStatus.CONFLICT,
+      message,
+    })
+  })
+
+  it('should send "501" status', async () => {
+    controller.notImplemented(res)
+    expect(res.status).toHaveBeenCalledWith(HttpStatus.NOT_IMPLEMENTED)
+    expect(res.json).toHaveBeenCalledWith({
+      status: HttpStatus.NOT_IMPLEMENTED,
+      message: 'Not implemented',
+    })
+  })
 })

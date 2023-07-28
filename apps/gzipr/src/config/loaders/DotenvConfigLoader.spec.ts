@@ -15,7 +15,7 @@ describe('DotenvConfigLoader', () => {
       TLS_KEY: '',
       TRUST_PROXY: '1',
       UPLOADS_DIR: 'uploads',
-      USE_HTTPS: 'false',
+      USE_HTTPS: '0',
     })
   })
 })
