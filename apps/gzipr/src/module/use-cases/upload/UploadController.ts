@@ -1,8 +1,7 @@
-import { check } from 'express-validator'
 import { Request, Response } from 'express'
-
-import { UploadUseCase } from './UploadUseCase'
 import { Logger, BaseController, ExpressValidationError } from '@gzipr/core'
+import { UploadUseCase } from './UploadUseCase'
+import { check } from '../../services/ExpressValidator'
 
 export class UploadController extends BaseController {
   private readonly useCase: UploadUseCase
@@ -13,7 +12,7 @@ export class UploadController extends BaseController {
   }
 
   protected async validate(req: Request) {
-    await Promise.all([check('filename').isString().run(req)])
+    await Promise.all([check('filename').sanitize().isValidFilename().run(req)])
   }
 
   protected async handler(req: Request, res: Response) {

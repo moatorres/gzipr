@@ -10,6 +10,7 @@ import {
   InvalidGzipFile,
   InvalidMimeType,
 } from './FileUploadErrors'
+import sanitize from 'sanitize-filename'
 
 type Upload = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- busboy headers type
@@ -76,7 +77,7 @@ export class FileUploadService {
           return reject(error)
         }
 
-        fileName = fileInfo.filename
+        fileName = sanitize(fileInfo.filename, { replacement: '_' })
         this.createDirectoryIfNotExist()
 
         const filePath = path.join(this.directory, fileName)

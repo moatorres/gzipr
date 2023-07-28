@@ -1,7 +1,7 @@
-import { check } from 'express-validator'
 import { Request, Response } from 'express'
 import { BaseController, Logger } from '@gzipr/core'
 import { DownloadUseCase } from './DownloadUseCase'
+import { check } from '../../services/ExpressValidator'
 
 export class DownloadController extends BaseController {
   private readonly useCase: DownloadUseCase
@@ -12,7 +12,7 @@ export class DownloadController extends BaseController {
   }
 
   protected validate = async (req: Request) => {
-    await Promise.all([check('filename').isString().run(req)])
+    await Promise.all([check('filename').sanitize().isValidFilename().run(req)])
   }
 
   public handler = async (req: Request, res: Response) => {
