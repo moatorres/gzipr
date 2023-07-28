@@ -49,10 +49,6 @@ The application provides three main endpoints:
 - `GET /download/:filename`
   Case-sensitive download of uploaded files (must include extension)
 
-## Conclusion
-
-`gzipr` showcases a balance between design principles and technical decisions, with a specific focus on efficient file transfering.
-
 ## Tests
 
 #### `@gzipr/core`
@@ -81,5 +77,9 @@ Tests:       7 passed, 7 total
 Snapshots:   0 total
 Time:        0.46 s, estimated 1 s
 ```
+
+## Conclusion
+
+`gzipr` showcases a balance between design principles and technical decisions, with a specific focus on efficient file transfering.
 
 <sub>⚡️ Powered by **OSS** — `< >` with ☕️ by [**Moa Torres**](https://github.com/moatorres)</sub>
