@@ -4,12 +4,16 @@ import { Config, ConfigLoader, AsyncConfigLoader } from './Types'
  * Union of default {@link AppConfig} keys.
  */
 type AppConfigKey =
-  | 'NODE_ENV'
   | 'PORT'
   | 'HOST'
   | 'NODE_ENV'
+  | 'UPLOADS_DIR'
+  | 'STORAGE_TYPE'
   | 'TRUST_PROXY'
-  | 'LOG_LEVEL'
+  | 'NODEMON'
+  | 'USE_HTTPS'
+  | 'TLS_KEY'
+  | 'TLS_CERT'
   // eslint-disable-next-line @typescript-eslint/ban-types
   | (string & {})
 
