@@ -7625,9 +7625,9 @@ svgo@^3.0.2:
     picocolors "^1.0.0"
 
 systeminformation@^5.7:
-  version "5.18.9"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.18.9.tgz#42b2f74f6e418edceccac0da30725a7ec645f68c"
-  integrity sha512-bn/FaMoJ+ry2kz8l3tDBMCY54m38ljyMZ1y/5idSpS8YfKxdO2AIPKJt84WzE72XAiyKb27d4CbR6/XT0UqXGw==
+  version "5.21.8"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.21.8.tgz#18395187e5983698619ed07ca8640ae48ec232b2"
+  integrity sha512-Xf1KDMUTQHLOT9Z7MjpSpsbaICOHcm4OZ9c9qqpkCoXuxq5MoyDrgu5GIQYpoiralXNPrqxDz3ND8MdllpXeQA==
 
 tapable@^2.1.1, tapable@^2.2.0, tapable@^2.2.1:
   version "2.2.1"
